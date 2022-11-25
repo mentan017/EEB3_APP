@@ -1,0 +1,39 @@
+body{
+    display: grid;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+img{
+    width: 80%;
+    max-width: 600px;
+    margin: 100px auto;
+}
+h1{
+    font-size: 6rem;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+input, button{
+    width: 80%;
+    max-width: 500px;
+    font-size: 2rem;
+    padding: 15px;
+    border-radius: 30px;
+    border: 2px solid;
+    margin: 10px auto;
+}
+button{
+    color: #ffffff;
+    background-color: blue;
+    border: none;
+    cursor: pointer;
+}
+p{
+    font-size: 1.3rem;
+    margin: 15px;
+}
+#forgot-password{
+    font-size: 1rem;
+    margin: 5px;
+}
