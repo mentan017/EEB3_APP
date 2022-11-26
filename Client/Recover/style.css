@@ -1,0 +1,53 @@
+body{
+    display: grid;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+img{
+    width: 80%;
+    max-width: 300px;
+    margin: 50px auto;
+}
+h1{
+    padding: 10vh;
+    font-size: 5rem;
+}
+.link{
+    width: max-content;
+    background-color: blue;
+    font-size: 3rem;
+    color: white;
+    text-decoration: none;
+    padding: 25px;
+    border-radius: 50px;
+    margin: auto;
+}
+input, button{
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    font-size: 2rem;
+    padding: 15px;
+    border-radius: 30px;
+    border: solid 2px black;
+    margin: 30px auto;
+}
+button{
+    background-color: blue;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+p{
+    font-size: 1.3rem;
+    margin: 15px;
+}
+.error{
+    font-size: 1.1rem;
+    color: red;
+    margin: 5px;
+}
+.hidden{
+    display: none;
+}

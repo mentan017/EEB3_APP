@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Common/Reset.css">
+    <link rel="stylesheet" href="/Recover/style.css">
+    <title>EEB3 App - Recover Account</title>
+</head>
+<body>
+    <a href="/"><img src="/Images/logo-eeb3.svg" alt="EEB3 logo"></a>
+    <h1><b>Recover Account</b></h1>
+    <input type="text" id="email-input" placeholder="Enter your email">
+    <p class="error hidden" id="empty-email">You have to input an email</p>
+    <p class="error hidden" id="invalid-email">The email cannot contain spaces</p>
+    <p class="error hidden" id="no-user-email">There isn't any user with this email</p>
+    <button id="submit-btn">Submit</button>
+    <a href="javascript:history.back()">Go back</a>
+    <script type="text/javascript" src="/Recover/main.js"></script>
+</body>
+</html>

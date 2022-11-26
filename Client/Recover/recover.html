@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Common/Reset.css">
+    <link rel="stylesheet" href="/VerifyEmail/style.css">
+    <title>EEB3 APP - Recover Account</title>
+</head>
+<body>
+    <a href="/"><img src="/Images/logo-eeb3.svg" alt="EEB3 logo"></a>
+    <h1><b>Recover Account</b></h1>
+    <p class="error hidden" id="inexisting-user">Your account has been deleted</p>
+    <p class="error hidden" id="old-new-password">Your new password cannot be the same as the old password</p>
+    <input type="password" id="password-input" placeholder="Enter your new password">
+    <p class="error hidden" id="empty-password">You have to input a password</p>
+    <p class="error hidden" id="space-password">The password cannot contain spaces</p>
+    <input type="password" id="password-input-confirmation" placeholder="Confirm your new password">
+    <p class="error hidden" id="empty-password-confirmation">You have to input a password confirmation</p>
+    <p class="error hidden" id="different-passwords">The passwords don't match</p>
+    <button id="submit-btn">Submit</button>
+    <a href="/">Go back to main page</a>
+    <script type="text/javascript" src="/Recover/recover.js"></script>
+</body>
+</html>
