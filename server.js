@@ -1,5 +1,6 @@
 //Import the node modules
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const https = require('https');
 const fs = require('fs');
 const mongoose = require('mongoose');
@@ -12,6 +13,7 @@ const app = express();
 //Set the app configurations
 app.use(express.static(__dirname + '/Client'));
 app.use(express.json());
+app.use(cookieParser());
 
 //Configure the SSl certificate
 const sslOptions = {
@@ -41,8 +43,10 @@ const logger = winston.createLogger({
 //Set the routes
 app.get('/', function(req, res){
     try{
-        if(req.headers.cookie == null){
+        if(req.cookies == null){
             res.redirect('/auth/login');
+        }else{
+            res.sendStatus(200);
         }
     }catch(e){
         console.log(e);

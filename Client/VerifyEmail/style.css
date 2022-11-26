@@ -13,7 +13,7 @@ h1{
     padding: 10vh;
     font-size: 5rem;
 }
-a{
+.link{
     width: max-content;
     background-color: blue;
     font-size: 3rem;

@@ -37,3 +37,11 @@ p{
     font-size: 1rem;
     margin: 5px;
 }
+.error{
+    font-size: 1.1rem;
+    color: red;
+    margin: 5px;
+}
+.hidden{
+    display: none;
+}

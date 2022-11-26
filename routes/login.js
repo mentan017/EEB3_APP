@@ -13,6 +13,7 @@ const homeDirectory = process.env.HOME_DIRECTORY;
 //Import MongoDB models
 const UserModel = require('../models/user.js');
 const EmailTokenModel = require('../models/emailtoken.js');
+const CookieModel = require('../models/cookie.js');
 
 //Connect to MongoDB database
 mongoose.connect('mongodb://127.0.0.1:27017/EEB3_APP_DEV', {useNewUrlParser: true, useUnifiedTopology: true});
@@ -27,6 +28,8 @@ const logger = winston.createLogger({
     ]
 });
 
+router.use(CheckCookie);
+
 router.get('/', function(req, res){
     res.redirect('/auth/login');
 });
@@ -36,6 +39,62 @@ router.get('/login', function(req, res){
     }catch(e){
         console.log(e);
         logger.log(e);
+        res.sendStatus(500);
+    }
+});
+router.post('/login', function(req, res){
+    try{
+        var Email = req.body.email || "";
+        var Password = req.body.password || "";
+        if(Email.includes(" ") || Email == ""){
+            res.status(401).send({error: "Invalid email", code: 0});
+        }else if(!isEmailValid(Email)){
+            res.status(401).send({error: "Invalid email", code: 0});
+        }else if((Password == "") || (Password == "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")){ //Hash of ""
+            res.status(401).send({error: "Invalid password", code: 1});
+        }else{
+            //Search for the user with this email
+            UserModel.findOne({Email: Email}, async function(err, User){
+                if(err){
+                    logger.log(e);
+                    console.log(e);
+                    res.sendStatus(500);
+                }else if(User == null){
+                    //The user doesn't exist
+                    res.status(401).send({error: "No user with this email", code: 2});
+                }else{
+                    //Check if the passwords match
+                    var Verification = await bcrypt.compare(Password, User.Password);
+                    if(Verification === true){
+                        if(User.Activated == true){
+                            //TODO: Create a cookie
+                            var Cookie = new CookieModel({
+                                UUID: uuidv4(),
+                                UserId: User._id,
+                                UserType: User.Type
+                            });
+                            try{
+                                await Cookie.save();
+                                res.status(200).cookie("SID", Cookie.UUID).send();
+
+                            }catch(e){
+                                logger.log(e);
+                                console.log(e);
+                                res.sendStatus(500);
+                            }
+                        }else{
+                            //The user didn't activate his account
+                            res.status(401).send({error: "Account not activated", code: 3});
+                        }
+                    }else{
+                        res.status(401).send({error: "Wrong password", code: 4});
+                    }
+                }
+            });
+        }
+    }catch(e){
+        logger.log(e);
+        console.log(e);
         res.sendStatus(500);
     }
 });
@@ -126,6 +185,26 @@ router.post('/register', async function(req, res){
 
 async function isEmailValid(email){
     return((email.substring(email.length-17) === "@student.eursc.eu") || (email.substring(email.length-17) === "@teacher.eursc.eu") || (email.substring(email.length-9) === "@eursc.eu"));
+}
+
+//Setup Middleware
+async function CheckCookie(req, res, next){
+    if(req.cookies == null){
+        next();
+    }else{
+        CookieModel.findOne({UUID: req.cookies.SID}, async function(err, Cookie){
+            if(err){
+                logger.log(e);
+                console.log(e);
+                next();
+            }else if(Cookie == null){
+                res.clearCookie('SID');
+                next();
+            }else{
+                res.redirect('/');
+            }
+        });
+    }
 }
 
 //Export route

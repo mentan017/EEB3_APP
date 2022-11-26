@@ -9,12 +9,21 @@
     <title>EEB3 App - Login</title>
 </head>
 <body>
-    <img src="/Images/logo-eeb3.svg" alt="EEB3 logo">
+    <a href="/"><img src="/Images/logo-eeb3.svg" alt="EEB3 logo"></a>
     <h1>Login</h1>
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Password">
-    <p id="forgot-password">Forgot password? <a href="#">Recover account</a></p>
-    <button>Login</button>
+    <input id="email-input" type="email" placeholder="Email">
+    <p class="error hidden" id="empty-email">You have to input an email</p>
+    <p class="error hidden" id="space-email">Your email cannot contain spaces</p>
+    <p class="error hidden" id="invalid-email">The email isn't valid</p>
+    <p class="error hidden" id="no-user">There isn't any user with this email</p>
+    <input id="password-input" type="password" placeholder="Password">
+    <p class="error hidden" id="empty-password">You have to input a password</p>
+    <p class="error hidden" id="space-password">Your password cannot contain spaces</p>
+    <p class="error hidden" id="invalid-password">The password isn't valid</p>
+    <p class="error hidden" id="wrong-password">The password isn't correct</p>
+    <p class="error hidden" id="account-not-activated">Your account hasn't been activated. <a href="/email/newtoken">Click here to activate your account</a></p>
+    <p id="forgot-password">Forgot password? <a href="/email/recover">Recover account</a></p>
+    <button id="login-btn">Login</button>
     <p>No account? <a href="/auth/register">Register</a></p>
     <script type="text/javascript" src="/Auth/Login/script.js"></script>
 </body>
