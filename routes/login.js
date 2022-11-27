@@ -189,13 +189,13 @@ async function isEmailValid(email){
 
 //Setup Middleware
 async function CheckCookie(req, res, next){
-    if(req.cookies == null){
+    if(req.cookies.SID == undefined){
         next();
     }else{
         CookieModel.findOne({UUID: req.cookies.SID}, async function(err, Cookie){
             if(err){
-                logger.log(e);
-                console.log(e);
+                logger.log(err);
+                console.log(err);
                 next();
             }else if(Cookie == null){
                 res.clearCookie('SID');

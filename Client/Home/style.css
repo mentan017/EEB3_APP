@@ -1,0 +1,27 @@
+body{
+    display: grid;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+h1{
+    font-size: 6rem;
+    padding: 30px;
+}
+p{
+    font-size: 1.5rem;
+    font-style: italic;
+    margin: 40px;
+}
+div{
+    font-size: 2rem;
+    padding: 30px;
+    border-radius: 30px;
+    border: solid #000000 2px;
+}
+a{
+    text-decoration: none;
+    width: 90%;
+    max-width: 350px;
+    margin: 20px auto;
+}
