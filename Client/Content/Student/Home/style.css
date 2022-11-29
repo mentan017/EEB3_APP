@@ -3,7 +3,57 @@ body{
     background-color: #f2f2f2;
 }
 .menu{
+    position: fixed;
     background-color: #ffffff;
     height: 100vh;
-    width: 12%;
+    width: 15%;
+}
+#logo-img{
+    width: 90%;
+    margin: 50px 5%;
+}
+.menu-item{
+    font-size: 1.7rem;
+    text-decoration: none;
+    text-align: center;
+    color: black;
+    width: 100%;
+}
+.menu-item div{
+    padding: 35px;
+}
+.menu-item div:hover{
+    background-color: #d4d4d4;
+}
+.content{
+    margin-left: 15%;
+    width: 85%;
+}
+.content .container{
+    margin: 80px;
+    width: calc(100% - 160px);
+    background-color: white;
+    padding: 10px;
+    border-radius: 15px;
+}
+.container-header{
+    font-size: 2rem;
+    padding: 10px;
+    border-bottom: 1px solid black;
+}
+.container-content{
+    padding: 10px;
+    display: flex;
+}
+.period-container{
+    width: 11%;
+    text-align: center;
+}
+.period{
+    font-size: 1.5rem;
+    padding: 5px;
+}
+.period-absences p{
+    font-size: 1.3rem;
+    padding: 4px;
 }

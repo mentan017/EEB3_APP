@@ -1,0 +1,103 @@
+body{
+    display: flex;
+    background-color: #f2f2f2;
+}
+.menu{
+    position: fixed;
+    background-color: #ffffff;
+    height: 100vh;
+    width: 15%;
+}
+#logo-img{
+    width: 90%;
+    margin: 50px 5%;
+}
+.menu-item{
+    font-size: 1.7rem;
+    text-decoration: none;
+    text-align: center;
+    color: black;
+    width: 100%;
+}
+.menu-item div{
+    padding: 35px;
+}
+.menu-item div:hover{
+    background-color: #d4d4d4;
+}
+.content{
+    margin-left: 15%;
+    width: 85%;
+    margin-bottom: 50px;
+}
+.schedule-container{
+    width: calc(100% - 160px);
+    background-color: white;
+    padding: 10px;
+    border-radius: 15px;
+    margin: 80px;
+    margin-bottom: 40px;
+}
+.container-header{
+    font-size: 2rem;
+    padding: 10px;
+    border-bottom: 1px solid black;
+}
+.schedule{
+    padding: 10px;
+    display: flex;
+}
+.day-container{
+    width: 17%;
+    text-align: center;
+}
+.period-count{
+    width: 15%;
+    text-align: center;
+    font-size: 2rem;
+}
+.period{
+    margin: 49px 0;
+}
+.period-first{
+    margin-top: 36px;
+}
+.day{
+    font-size: 2rem;
+}
+.class{
+    margin: 12px 8px;
+}
+.subject-class-inputs{
+    display: flex;
+    width: 95%;
+    margin: auto;
+}
+.subject-class-inputs input{
+    width: calc(50% - 4px);
+    margin: 2px 2px;
+}
+.teacher-input{
+    width: 90%;
+}
+.class input{
+    font-size: 1.3rem;
+    text-align: center;
+    padding: 2px;
+}
+.footer{
+    display: grid;
+    align-content: center;
+    place-content: center;
+    
+}
+#save-btn{
+    text-align: center;
+    font-size: 2rem;
+    color: white;
+    background-color: green;
+    width: max-content;
+    padding: 15px;
+    border-radius: 15px;
+    cursor: pointer;
+}

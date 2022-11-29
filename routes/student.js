@@ -36,6 +36,15 @@ router.get('/', function(req, res){
         res.sendStatus(500);
     }
 });
+router.get('/schedule', function(req, res){
+    try{
+        res.status(200).sendFile(`${homeDirectory}/Client/Content/Student/Schedule/index.html`);
+    }catch(e){
+        console.log(e);
+        logger.log(e);
+        res.sendStatus(500);
+    }
+});
 
 //Setup Middleware
 async function VerifyUserType(req, res, next){
