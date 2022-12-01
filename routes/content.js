@@ -27,6 +27,22 @@ const logger = winston.createLogger({
     ]
 });
 
+//Set the routes
+router.put('/uploadSchedule', async function(req, res){
+    try{
+        //Check the cookie
+        var Schedule = req.body.Schedule || "";
+        if(Schedule == ""){
+            //The request didn't send a schedule
+            res.sendStatus(400);
+        }
+    }catch(e){
+        console.log(e);
+        logger.log(e);
+        res.sendStatus(500);
+    }
+});
+
 //Redirect the user
 router.get('/', function(req, res){
     try{
@@ -56,6 +72,15 @@ router.get('/', function(req, res){
         res.sendStatus(500);
     }
 });
+
+//Setup middleware
+async function CheckCookie(req, res, next){
+    if(req.cookie.SID == undefined){
+        res.status(400).redirect('/auth/login');
+    }else{
+        //Find the cookie
+    }
+}
 
 //Connect routes
 router.use('/student', StudentRouter);

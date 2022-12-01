@@ -68,22 +68,12 @@ body{
 .class{
     margin: 12px 8px;
 }
-.subject-class-inputs{
-    display: flex;
-    width: 95%;
-    margin: auto;
-}
-.subject-class-inputs input{
-    width: calc(50% - 4px);
-    margin: 2px 2px;
-}
-.teacher-input{
-    width: 90%;
-}
 .class input{
     font-size: 1.3rem;
     text-align: center;
+    width: 90%;
     padding: 2px;
+    margin: 1px;
 }
 .footer{
     display: grid;
