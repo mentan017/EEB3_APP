@@ -36,6 +36,15 @@ router.get('/', function(req, res){
         res.sendStatus(500);
     }
 });
+router.get('/schedule', function(req, res){
+    try{
+        res.status(200).sendFile(`${homeDirectory}/Client/Content/Teacher/Schedule/index.html`);
+    }catch(e){
+        console.log(e);
+        logger.log(e);
+        res.sendStatus(500);
+    }
+});
 
 //Setup Middleware
 async function VerifyUserType(req, res, next){
@@ -50,7 +59,7 @@ async function VerifyUserType(req, res, next){
             }else if(Cookie == null){
                 res.clearCookie('SID');
                 res.redirect('/auth/login');
-            }else if(Cookie.UserType != 'student'){
+            }else if(Cookie.UserType != 'teacher'){
                 res.redirect('/content');
             }else{
                 next();

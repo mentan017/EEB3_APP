@@ -28,32 +28,66 @@ body{
 .content{
     margin-left: 15%;
     width: 85%;
+    margin-bottom: 50px;
 }
-.content .container{
-    margin: 80px;
+.schedule-container{
     width: calc(100% - 160px);
     background-color: white;
     padding: 10px;
     border-radius: 15px;
+    margin: 80px;
+    margin-bottom: 40px;
 }
 .container-header{
     font-size: 2rem;
     padding: 10px;
     border-bottom: 1px solid black;
 }
-.container-content{
+.schedule{
     padding: 10px;
     display: flex;
 }
-.period-container{
-    width: 11%;
+.day-container{
+    width: 17%;
     text-align: center;
 }
-.period{
-    font-size: 1.5rem;
-    padding: 5px;
+.period-count{
+    width: 15%;
+    text-align: center;
+    font-size: 2rem;
 }
-.period-cancelled-classes p{
+.period{
+    margin: 49px 0;
+}
+.period-first{
+    margin-top: 36px;
+}
+.day{
+    font-size: 2rem;
+}
+.class{
+    margin: 12px 8px;
+}
+.class input{
     font-size: 1.3rem;
-    padding: 4px;
+    text-align: center;
+    width: 90%;
+    padding: 2px;
+    margin: 1px;
+}
+.footer{
+    display: grid;
+    align-content: center;
+    place-content: center;
+    
+}
+#save-btn{
+    text-align: center;
+    font-size: 2rem;
+    color: white;
+    background-color: green;
+    width: max-content;
+    padding: 15px;
+    border-radius: 15px;
+    cursor: pointer;
 }

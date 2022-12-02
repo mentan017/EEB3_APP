@@ -29,7 +29,16 @@ router.use(VerifyUserType);
 
 router.get('/', function(req, res){
     try{
-        res.send('Hello Admin');
+        res.status(200).sendFile(`${homeDirectory}/Client/Content/Admin/Home/index.html`);
+    }catch(e){
+        console.log(e);
+        logger.log(e);
+        res.sendStatus(500);
+    }
+});
+router.get('/absences', function(req, res){
+    try{
+        res.status(200).sendFile(`${homeDirectory}/Client/Content/Admin/Absences/index.html`);
     }catch(e){
         console.log(e);
         logger.log(e);
@@ -50,7 +59,7 @@ async function VerifyUserType(req, res, next){
             }else if(Cookie == null){
                 res.clearCookie('SID');
                 res.redirect('/auth/login');
-            }else if(Cookie.UserType != 'student'){
+            }else if(Cookie.UserType != 'admin'){
                 res.redirect('/content');
             }else{
                 next();

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const ScheduleSchema = new mongoose.Schema({
     Days:[{
         Classes:[{
-            Class:{
+            Subject:{
                 type: String
             },
             Classroom:{
