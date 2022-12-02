@@ -54,18 +54,20 @@ h1{
 }
 .search-result{
     list-style: none;
-    padding: 10px;
     cursor: pointer;
     display: none;
 }
+.search-result div{
+    font-size: 0;
+}
 .search-result div p:nth-child(1){
     font-size: 1.7rem;
-    padding: 4px 10px;
+    padding: 7px 13px;
 }
 .search-result div p:nth-child(2){
     font-size: 1.2rem;
     color: rgb(24, 24, 24);
-    padding: 2px 10px;
+    padding: 4px 13px;
 }
 .search-result:hover{
     background-color: #efefef;
