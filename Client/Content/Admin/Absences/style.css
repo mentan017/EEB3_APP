@@ -90,3 +90,46 @@ h1{
     margin: 5px 20px;
     cursor: pointer;
 }
+#absences-container{
+    width: 98%;
+    max-width: 1000px;
+    margin: 100px auto;
+}
+.absence-element{
+    display: flex;
+    background-color: #ffffff;
+    text-align: left;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+.absence-content-container{
+    width: calc(100% - 30px);
+}
+.absence-name, .absence-email{
+    padding: 7px;
+}
+.absence-name{
+    font-size: 2rem;
+}
+.absence-email{
+    font-size: 1.3rem;
+}
+.absent-periods-container{
+    text-align: center;
+    margin: 10px;
+    display: flex;
+}
+.absent-period{
+    width: calc(100% / 9);
+}
+.cross-sign{
+    background-color: red;
+    font-family: "Lucida Console", monospace;
+    color: #ffffff;
+    font-size: 1.4rem;
+    padding: 10px 14px;
+    border-radius: 2rem;
+    margin: 10px;
+    cursor: pointer;
+}

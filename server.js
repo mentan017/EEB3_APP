@@ -74,4 +74,4 @@ app.use('/content', ContentRouter);
 
 //Start the server
 https.createServer(sslOptions, app).listen(process.env.PORT);
-console.log(`App running on port: ${process.env.PORT}`);
+console.log(`EEB3 App running on port: ${process.env.PORT}`);

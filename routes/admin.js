@@ -72,6 +72,26 @@ router.post('/fetchTeacherNames', async function(req, res){
         res.sendStatus(500);
     }
 });
+router.post('/fetchAbsentTeachers', async function(req, res){
+    try{
+        var CurrentDate = (new Date()).toDateString();
+        AbsenceModel.findOne({Date: CurrentDate}, function(err, Absence){
+            if(err){
+                console.log(err);
+                logger.log(err);
+                res.sendStatus(500);
+            }else if(Absence == null){
+                res.status(200).send([]);
+            }else{
+                res.status(200).send(Absence.Teachers);
+            }
+        });
+    }catch(e){
+        console.log(e);
+        logger.log(e);
+        res.sendStatus(500);
+    }
+});
 router.put('/addAbsence', async function(req, res){
     try{
         var Email = req.body.Email || "";
@@ -85,15 +105,11 @@ router.put('/addAbsence', async function(req, res){
                 res.status(401).send({error: 'Today is a weekend', code: 0});
             }else if(Teacher != null){
                 //Fetch the Teachers Schedule if there is one and get the cancelled classes. By default it's empty
-                var CancelledPeriods = [];
                 var CancelledClasses = [];
                 if(Teacher.Schedule){
                     //Get the Cancelled Periods and Classes
                     var Schedule = await ScheduleModel.findById(Teacher.Schedule);
                     for(var i=0; i<Schedule.Days[CurrentDay].Classes.length; i++){
-                        if(Schedule.Days[CurrentDay].Classes[i].Subject.length != 0){
-                            CancelledPeriods.push(i);
-                        }
                         CancelledClasses.push(Schedule.Days[CurrentDay].Classes[i].Subject);
                     }
                 }
@@ -117,7 +133,7 @@ router.put('/addAbsence', async function(req, res){
                             Teachers: [{
                                 Name: Teacher.Name,
                                 Email: Teacher.Email,
-                                CancelledPeriods: CancelledPeriods
+                                CancelledPeriods: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                             }],
                             Periods: Periods,
                             Date: CurrentDate
@@ -137,7 +153,7 @@ router.put('/addAbsence', async function(req, res){
                             Absence.Teachers.unshift({
                                 Name: Teacher.Name,
                                 Email: Email,
-                                CancelledPeriods: CancelledPeriods
+                                CancelledPeriods: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                             });
                             for(var i=0; i<CancelledClasses.length; i++){
                                 if(CancelledClasses[i] != ""){
@@ -155,6 +171,116 @@ router.put('/addAbsence', async function(req, res){
             }else{
                 res.status(401).send({error: "No teacher matching this email", code: 2});
             }
+        }else{
+            res.sendStatus(400);
+        }
+    }catch(e){
+        console.log(e);
+        logger.log(e);
+        res.sendStatus(500);
+    }
+});
+router.put('/updateAbsentPeriods', async function(req, res){
+    try{
+        var Email = req.body.Email || "";
+        var Period = req.body.Period || -1;
+        var Remove = req.body.Remove || false;
+        if((Email != "") && (Period != -1)){
+            UserModel.findOne({Email: Email}, async function(err, Teacher){
+                if(err){
+                    console.log(err);
+                    logger.log(err);
+                    res.sendStatus(500);
+                }else if(!Teacher){
+                    res.status(401).send({error: "There aren't any teachers with this email"});
+                }else{
+                    var CurrentDate = (new Date).toDateString();
+                    var CurrentDay = (new Date).getDay();
+                    var Absence = await AbsenceModel.findOne({Date: CurrentDate});
+                    for(var i=0; i<Absence.Teachers.length; i++){
+                        if(Absence.Teachers[i].Email == Email){
+                            if(Remove == true){
+                                var index = Absence.Teachers[i].CancelledPeriods.indexOf(Period);
+                                if(index > -1) Absence.Teachers[i].CancelledPeriods.splice(index, 1);
+                            }else{
+                                var index = Absence.Teachers[i].CancelledPeriods.indexOf(Period);
+                                if(index == -1) Absence.Teachers[i].CancelledPeriods.push(Period);
+                            }
+                            i = Absence.Teachers.length;
+                        }
+                    }
+                    if(Teacher.Schedule){
+                        var Schedule = await ScheduleModel.findById(Teacher.Schedule);
+                        var Class = Schedule.Days[CurrentDay].Classes[Period].Subject;
+                        if(Remove == true){
+                            var index = Absence.Periods[Period].CancelledClasses.indexOf(Class);
+                            if(index > -1) Absence.Periods[Period].CancelledClasses.splice(index, 1);
+                        }else{
+                            var index = Absence.Periods[Period].CancelledClasses.indexOf(Class);
+                            if(index == -1) Absence.Periods[Period].CancelledClasses.push(Class);
+                        }
+                    }
+                    await Absence.save();
+                    res.sendStatus(200);
+                }
+            })
+        }else{
+            res.sendStatus(400);
+        }
+    }catch(e){
+        console.log(e);
+        logger.log(e);
+        res.sendStatus(500);
+    }
+})
+router.delete('/deleteAbsence', async function(req, res){
+    try{
+        var Email = req.body.Email || "";
+        if(Email != ""){
+            //Get the current date
+            var CurrentDate = (new Date()).toDateString();
+            AbsenceModel.findOne({Date: CurrentDate}, async function(err, Absence){
+                if(err){
+                    console.log(err);
+                    logger.log(err);
+                    res.sendStatus(500);
+                }else if(Absence == null){
+                    res.status(401).send({error: "There are no absences today", code: 0});
+                }else{
+                    var i=0;
+                    while(i<Absence.Teachers.length){
+                        if(Absence.Teachers[i].Email == Email){
+                            //Splice is not a function
+                            Absence.Teachers.splice(i, 1);
+                            i = Absence.Teachers.length;
+                            //Remove the cancelled classes of this teacher
+                            UserModel.findOne({Email: Email}, async function(err, Teacher){
+                                if(err){
+                                    console.log(err);
+                                    logger.log(err);
+                                    res.sendStatus(500);
+                                }else if(Teacher){
+                                    if(Teacher.Schedule){
+                                        var Schedule = await ScheduleModel.findById(Teacher.Schedule);
+                                        var CurrentDay = (new Date()).getDay();
+                                        for(var j=0; j<Schedule.Days[CurrentDay].Classes.length; j++){
+                                            for(var k=0; k<Absence.Periods.length; k++){
+                                                var index = Absence.Periods[k].CancelledClasses.indexOf(Schedule.Days[CurrentDay].Classes[j].Subject);
+                                                if(index > -1){
+                                                    Absence.Periods[k].CancelledClasses.splice(index, 1);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                await Absence.save();
+                            });
+                        }
+                        i++;
+                    }
+                    res.sendStatus(200);
+                }
+            });
         }else{
             res.sendStatus(400);
         }
