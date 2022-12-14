@@ -123,7 +123,7 @@ router.post('/register', async function(req, res){
             //TODO: Verify if the email exists
             var ValidEmail = await isEmailValid(Email);
             if(ValidEmail){
-                //TODO: Verifiy that the email is from the school
+                //TODO: Verify that the email is from the school
                 var AccountType = "student";
                 if(Email.includes("@eursc.eu")){
                     AccountType = "admin";

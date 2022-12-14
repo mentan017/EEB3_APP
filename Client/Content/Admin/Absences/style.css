@@ -60,11 +60,11 @@ h1{
 .search-result div{
     font-size: 0;
 }
-.search-result div p:nth-child(1){
+.search-result div p:nth-last-child(2){
     font-size: 1.7rem;
     padding: 7px 13px;
 }
-.search-result div p:nth-child(2){
+.search-result div p:nth-last-child(1){
     font-size: 1.2rem;
     color: rgb(24, 24, 24);
     padding: 4px 13px;
@@ -78,7 +78,7 @@ h1{
 #search-bar-container.active #name-input{
     border-radius: 10px 10px 0 0;
 }
-.add-btn{
+#add-btn{
     position: absolute;
     top: 0;
     right: 0;
