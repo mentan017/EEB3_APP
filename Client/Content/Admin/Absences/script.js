@@ -207,7 +207,11 @@ function AddEventListeners(){
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify({Email: Email, Period: Period, Remove: Remove})
             });
-            console.log(response.status);
+            if(response.status == 401){
+                window.alert("There aren't any teachers with this email");
+            }else if(response.status == 500){
+                window.alert("An error occured in the servers. Please try again later.");
+            }
         });
     }
 }
