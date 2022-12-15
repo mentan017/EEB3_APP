@@ -4,8 +4,7 @@ async function FillSchedule(){
     //Do a request to the server to fetch the user schedule
     var response = await fetch('/content/schedule', {
         method: "POST",
-        headers: {'Content-type': 'application/json'},
-        body: JSON.stringify({}) //check if really needed
+        headers: {'Content-type': 'application/json'}
     });
     if(response.status == 200){
         var Schedule = await response.json();

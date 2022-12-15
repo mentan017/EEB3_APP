@@ -7,14 +7,15 @@ const winston = require('winston');
 const router = express.Router();
 
 //Import MongoDB models
+const AbsenceModel = require('../models/absence.js');
 const CookieModel = require('../models/cookie.js');
 const ScheduleModel = require('../models/schedule.js');
 const UserModel = require('../models/user.js');
 
 //Import routes
+const AdminRouter = require('./admin.js');
 const StudentRouter = require('./student.js');
 const TeacherRouter = require('./teacher.js');
-const AdminRouter = require('./admin.js');
 
 //Connect to MongoDB database
 mongoose.connect('mongodb://127.0.0.1:27017/EEB3_APP_DEV', {useNewUrlParser: true, useUnifiedTopology: true});
@@ -93,6 +94,64 @@ router.post('/schedule', CheckCookie, async function(req, res){
     }catch(e){
         logger.log(e);
         console.log(e);
+        res.sendStatus(500);
+    }
+});
+router.post('/fetchAbsences', CheckCookie, async function(req, res){
+    try{
+        var CurrentDate = (new Date()).toDateString();
+        AbsenceModel.findOne({Date: CurrentDate}, async function(err, Absence){
+            if(err){
+                console.log(err);
+                logger.log(err);
+                res.sendStatus(500);
+            }else if(Absence == null){
+                res.sendStatus(204);
+            }else{
+                //Get the classes of the user
+                var UserId = req.body.UserId;
+                var User = await UserModel.findById(UserId);
+                if((User != null) && (User.Schedule)){
+                    var Schedule = await ScheduleModel.findById(User.Schedule);
+                    var CurrentDay = (new Date()).getDay()-1;
+                    if(CurrentDay < 5){
+                        var CancelledClasses = [];
+                        for(var i=0; i<Absence.Periods.length; i++){
+                            var PeriodCancelledClasses = [];
+                            for(var j=0; j<Absence.Periods[i].CancelledClasses.length; j++){
+                                var CancelledClass = {
+                                    Class: Absence.Periods[i].CancelledClasses[j],
+                                    UserHasClass: false
+                                };
+                                if(Schedule.Days[CurrentDay].Classes[i].Subject == CancelledClass.Class) CancelledClass.UserHasClass = true;
+                                PeriodCancelledClasses.push(CancelledClass);
+                            }
+                            CancelledClasses.push(PeriodCancelledClasses);
+                        }
+                        res.status(200).send(CancelledClasses);
+                    }else{
+                        res.sendStatus(204);
+                    }
+                }else{
+                    var CancelledClasses = [];
+                    for(var i=0; i<Absence.Periods.length; i++){
+                        var PeriodCancelledClasses = [];
+                        for(var j=0; j<Absence.Periods[i].CancelledClasses.length; j++){
+                            var CancelledClass = {
+                                Class: Absence.Periods[i].CancelledClasses[j],
+                                UserHasClass: false
+                            };
+                            PeriodCancelledClasses.push(CancelledClass);
+                        }
+                        CancelledClasses.push(PeriodCancelledClasses);
+                    }
+                    res.status(200).send(CancelledClasses);
+                }
+            }
+        });
+    }catch(e){
+        console.log(e);
+        logger.log(e);
         res.sendStatus(500);
     }
 });

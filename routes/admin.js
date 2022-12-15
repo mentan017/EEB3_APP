@@ -98,7 +98,7 @@ router.put('/addAbsence', async function(req, res){
         if(Email != ""){
             //Get the current date
             var CurrentDate = (new Date()).toDateString();
-            var CurrentDay = (new Date()).getDay();
+            var CurrentDay = (new Date()).getDay()-1;
             var Teacher = await UserModel.findOne({Email: Email});
             if(CurrentDay > 4){
                 //CurrentDay is 5 or 6 (weekend days)
@@ -195,7 +195,7 @@ router.put('/updateAbsentPeriods', async function(req, res){
                     res.status(401).send({error: "There aren't any teachers with this email"});
                 }else{
                     var CurrentDate = (new Date).toDateString();
-                    var CurrentDay = (new Date).getDay();
+                    var CurrentDay = (new Date).getDay()-1;
                     var Absence = await AbsenceModel.findOne({Date: CurrentDate});
                     for(var i=0; i<Absence.Teachers.length; i++){
                         if(Absence.Teachers[i].Email == Email){
@@ -262,7 +262,7 @@ router.delete('/deleteAbsence', async function(req, res){
                                 }else if(Teacher){
                                     if(Teacher.Schedule){
                                         var Schedule = await ScheduleModel.findById(Teacher.Schedule);
-                                        var CurrentDay = (new Date()).getDay();
+                                        var CurrentDay = (new Date()).getDay()-1;
                                         for(var j=0; j<Schedule.Days[CurrentDay].Classes.length; j++){
                                             for(var k=0; k<Absence.Periods.length; k++){
                                                 var index = Absence.Periods[k].CancelledClasses.indexOf(Schedule.Days[CurrentDay].Classes[j].Subject);

@@ -1,4 +1,5 @@
+/cert
 /node_modules
 .env
 Error.log
-/cert
+notes.txt
